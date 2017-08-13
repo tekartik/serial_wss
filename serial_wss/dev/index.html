@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Context Menu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        .container {
+            width: 320px;
+            max-width: 100%;
+            margin: auto;
+            padding: 16px;
+        }
+
+    </style>
+</head>
+<body style="width: 100%; height: 100%;">
+<div class="container">
+<p>NW_ES6 local</p>
+<button id="start">Start</button>
+<button id="stop">Stop</button>
+<button id="startAgain">Start again</button>
+<button id="getDevices">Get devices</button>
+<pre id="output"></pre>
+</div>
+<script>
+    // Create an empty context menu
+    var menu = new nw.Menu();
+
+    // Add some items with label
+    menu.append(new nw.MenuItem({
+        label: 'Item A',
+        click: function () {
+            alert('You have clicked at "Item A"');
+        }
+    }));
+    menu.append(new nw.MenuItem({label: 'Item B'}));
+    menu.append(new nw.MenuItem({type: 'separator'}));
+    menu.append(new nw.MenuItem({label: 'Item C'}));
+
+    /*
+    // Hooks the "contextmenu" event
+    document.body.addEventListener('contextmenu', function (ev) {
+        // Prevent showing default context menu
+        ev.preventDefault();
+        // Popup the native context menu at place you click
+        menu.popup(ev.x, ev.y);
+
+        return false;
+    }, false);
+    */
+    document.getElementById("start").addEventListener("click", async (e) => {
+        try {
+            console.log("stop/start");
+            await tekartik_serial_stop();
+            await tekartik_serial_start(8988);
+        }
+        catch (e) {
+            console.log("stop/start failed");
+            console.error(e);
+        }
+    });
+    document.getElementById("stop").addEventListener("click", (e) => {
+        try {
+
+            console.log("stop");
+            tekartik_serial_stop();
+        }
+        catch (e) {
+            console.log("stop/ failed");
+            console.error(e);
+        }
+    });
+
+    document.getElementById("startAgain").addEventListener("click", async (e) => {
+        try {
+            console.log("start");
+            await tekartik_serial_start(8988);
+        } catch (e) {
+            console.log("start failed");
+            console.error(e);
+        }
+    });
+
+    document.getElementById("getDevices").addEventListener("click", async (e) => {
+        try {
+            console.log("start");
+            await tekartik_serial_dump_devices();
+        } catch (e) {
+            console.log("start failed");
+            console.error(e);
+        }
+    });
+
+</script>
+<script src="main.js"></script>
+<!--<script src="wss.js"></script>-->
+</body>
+</html>

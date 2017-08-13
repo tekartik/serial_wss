@@ -1,0 +1,6 @@
+{
+  "name": "tekartik_serial_wss",
+  "dependencies": {
+    "ws": "latest"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "tekartik_serial_wss_example_nw_dart",
+  "main": "test_menu.html",
+  "version": "0.0.1",
+  "dependencies": {
+    "ws": "latest"
+  },
+  "chromium-args": "--enable-logging=stderr"
+}
