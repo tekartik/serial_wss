@@ -10,7 +10,7 @@ const statusClosed = "closed";
 
 const errorCodeFailed = 1;
 
-const version = '0.3.0';
+const version = '0.4.0';
 
 let _extra_debug = true;
 
