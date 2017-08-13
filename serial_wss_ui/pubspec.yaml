@@ -20,7 +20,6 @@ dependencies:
   tekartik_material_asset:
     git: git://github.com/tekartik/material_asset.dart
 dev_dependencies:
-  angular_test: ^1.0.0-beta+2
   browser: ^0.10.0
   dart_to_js_script_rewriter: ^1.0.1
   test: ^0.12.0
@@ -32,10 +31,6 @@ dev_dependencies:
 transformers:
 - angular2:
     entry_points: web/main.dart
-- angular2/transform/reflection_remover:
-    $include: test/**_test.dart
-- test/pub_serve:
-    $include: test/**_test.dart
 - dart_to_js_script_rewriter
 
 # Uncomment the following in sdk 1.24+ to make pub serve
