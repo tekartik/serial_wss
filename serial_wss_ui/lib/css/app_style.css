@@ -1,0 +1,12 @@
+.container {
+  max-width: 100%; }
+
+.container material-input {
+  width: 100%; }
+
+pre {
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word; }
+
+/*# sourceMappingURL=app_style.css.map */

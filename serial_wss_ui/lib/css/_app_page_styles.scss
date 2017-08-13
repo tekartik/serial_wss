@@ -1,0 +1,131 @@
+app .app-page {
+  background-color: $app-color-purple-light;
+}
+
+app .app-page {
+  position: relative;
+}
+
+.app-page-content {
+  padding: $app-horizontal-margin-normal;
+}
+
+.app-page-container, .app-page-container-small, .app-page-container-medium {
+  /*max-width: 480px;*/
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.app-page-container-small material-input, .app-page-container-small material-button {
+  width: 100%;
+}
+
+app .app-page .app-page-content {
+  background-color: white;
+}
+
+app .app-page .app-page-header {
+    padding-left: $app-horizontal-margin-normal;
+}
+
+@media screen and (min-height: $app-screen-height-large) {
+  .app-page-container, app .app-page {
+    padding-top: $app-vertical-margin-large;
+    padding-bottom: $app-vertical-margin-large;
+  }
+}
+
+@media screen and (min-width: $app-screen-width-large) {
+  .app-page-container, app .app-page {
+    padding-left: $app-horizontal-margin-large;
+    padding-right: $app-horizontal-margin-large;
+  }
+}
+
+@media screen and (min-height: $app-screen-height-large) and (min-width: $app-screen-width-large) {
+  .app-page-container {
+    padding: $app-horizontal-margin-large;
+  }
+
+  app .app-page .app-page-content {
+    padding: $app-margin-large;
+  }
+  app .app-page .app-page-header {
+    padding-left: $app-horizontal-margin-large;
+  }
+
+}
+
+app .app-page .app-button-bar {
+  position: absolute;
+  top: 6px;
+  right: 0;
+  margin-right: 16px;
+  margin-top: 16px;
+}
+
+app .app-page material-fab.main {
+  background-color: $app-color-lime;
+}
+
+.row > .layout.horizontal {
+  flex-wrap: wrap;
+}
+
+.row {
+  min-height: 48px;
+  cursor: pointer;
+}
+
+.row i {
+  margin-right: 12px;
+}
+
+/* for detail row, label: value */
+.detail .row > :first-child {
+  font-weight: bold;
+}
+
+/*
+.row material-button {
+  width: 100%;
+}
+*/
+
+material-button.app-logs {
+  margin-top: 32px;
+  max-wdith: 50%;
+}
+
+.layout-vertical-spacer {
+  height: 32px;
+
+}
+
+material-button.main {
+  background-color: $mainColor;
+}
+
+/*
+app-wait-box {
+  display: block;
+  font-size: smaller;
+  width: 100%;
+  min-height: 84px;
+  margin: 0;
+  padding: 0;
+}
+*/
+
+app-wait-box .app-info-message {
+  color: $app-purple;
+}
+
+app-wait-box .app-wait-message {
+  color: $app-color-lime;
+}
+
+app-wait-box .app-error-message {
+  color: $app-color-red;
+}

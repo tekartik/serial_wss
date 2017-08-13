@@ -1,0 +1,99 @@
+@import 'constant';
+@import 'core';
+@import 'common';
+@import '_app_page_styles';
+@import '../splash/splash_main';
+@import 'flexboxgrid_hide';
+
+.app-material-input-label {
+    color: rgba(0, 0, 0, 0.541176);
+    font-size: 12px;
+}
+
+a {
+    color: $app-color-purple
+}
+
+body {
+    background-color: $app-color-purple-light;
+}
+.app-header {
+    background-color: $app-color-red;
+    width: 100%;
+    height: 48px;
+    color: white;
+    display: block;
+
+    display: flex;
+    //justify-content: center;
+    align-items: center;
+}
+
+.app-header > * {
+    vertical-align: middle;
+
+}
+
+.app-header .app-title {
+    font-size: 18px;
+}
+
+.sidebar-layout-sidebar {
+    background-color: white;
+}
+
+/*
+@media screen and (min-height: 600px) {
+    .app-header {
+        height: 128px;
+    }
+    .app-header .app-title {
+        font-size: 52px;
+    }
+
+}
+*/
+
+.sidebar-layout.sidebar-large-screen .app-sidebar-toggle {
+    display: none;
+
+
+}
+.app-home-logo-wrapper {
+    padding: 16px;
+}
+.app-home-logo {
+    height: 92px;
+    background: url('../img/logo_white.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.app-page-container-medium {
+    margin: auto;
+    width: 960px;
+    max-width: 100%;
+}
+
+/*
+
+.app-bg-dark {
+    background-color: $app-purple-dark;
+}
+
+.app-bottom {
+    position: absolute;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+}
+.app-bottom-wave {
+    height: 100px;
+    background: url(../img/wave.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center top;
+    width: 100%;
+}*/
+

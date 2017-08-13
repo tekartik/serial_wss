@@ -1,0 +1,64 @@
+/*$app-purple-dark: #351345;*/
+/* background */
+.app-form-vertical-spacer {
+  width: 100%;
+  height: 16px; }
+
+.app-dialog-button-secondary {
+  color: black; }
+
+material-dialog h3 {
+  color: black; }
+
+.position-absolute {
+  position: absolute; }
+
+.app-grey-button, .app-green-button, .app-red-button {
+  background-color: #bbb;
+  width: 192px;
+  border-radius: 50%;
+  height: 192px; }
+
+.app-green-button {
+  color: #BFD730; }
+
+.app-red-button {
+  color: #ff4d16; }
+
+material-fab.app-material-grey-button, .app-material-grey-button {
+  background-color: #bbb; }
+
+.app-green-button .material-icons, .app-red-button .material-icons, .app-grey-button .material-icons {
+  font-size: 64px; }
+
+.app-error {
+  color: #ff4d16; }
+
+.app-border-color-orange {
+  border-color: #dc911a; }
+
+.app-text-purple {
+  color: #5a2881; }
+
+.app-text-purple-medium {
+  color: #7e4c9e; }
+
+.app-text-lime {
+  color: #BFD730; }
+
+.app-text-orange {
+  color: #dc911a; }
+
+.app-text-red {
+  color: #ff4d16; }
+
+.app-text-dark {
+  color: #381559; }
+
+.app-text-centered {
+  text-align: center; }
+
+.app-display-none {
+  display: none; }
+
+/*# sourceMappingURL=common.css.map */

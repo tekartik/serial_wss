@@ -1,0 +1,33 @@
+:host {
+    width: 100%;
+}
+
+.logo {
+    width: 128px;
+    height: 128px;
+    background-url: url(../../img/icon_128x128.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 128px 128px;
+
+}
+
+div[header] {
+    min-height: 48px;
+    padding-top: 12px;
+    background-color: dodgerblue;
+    padding-bottom: 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: white;
+    padding-left: 16px;
+}
+
+.app-version {
+    margin-top: 16px;
+    color: gray;
+}
+
+pre {
+    font-family: Inconsolata, monospace;
+}

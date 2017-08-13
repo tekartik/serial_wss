@@ -1,0 +1,27 @@
+@import 'constant';
+
+/*@_import "../../../packages/tekartik_app_utils/iron_flex_layout/css/iron_flex_layout.css";*/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../../packages/tekartik_material_asset/font/roboto/Roboto-Regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../../packages/tekartik_material_asset/font/roboto/Roboto-Bold-webfont.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /*padding-top: 24px;*/
+  /*font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;*/
+  font-family: Roboto,"Helvetica Neue",Arial,Helvetica,sans-serif;
+}

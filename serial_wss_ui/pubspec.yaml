@@ -1,0 +1,45 @@
+name: tekartik_serial_wss_ui
+description: A web app that uses AngularDart Components
+version: 0.0.1
+#homepage: https://www.example.com
+#author: alex <email@example.com>
+
+environment:
+  sdk: '>=1.23.0 <2.0.0'
+
+dependencies:
+  angular2: ^3.0.0
+  angular_components: ^0.5.1
+  js: any
+  tekartik_serial_wss:
+    path: ../serial_wss
+  tekartik_serial_wss_client:
+    git: git://github.com/tekartik/serial_wss_client.dart
+  tekartik_angular2_utils:
+    git: git://github.com/tekartik/angular2_utils.dart
+  tekartik_material_asset:
+    git: git://github.com/tekartik/material_asset.dart
+dev_dependencies:
+  angular_test: ^1.0.0-beta+2
+  browser: ^0.10.0
+  dart_to_js_script_rewriter: ^1.0.1
+  test: ^0.12.0
+  tekartik_pub:
+    git: git://github.com/tekartik/pub.dart
+    version: ">=0.6.1"
+  grinder: any
+
+transformers:
+- angular2:
+    entry_points: web/main.dart
+- angular2/transform/reflection_remover:
+    $include: test/**_test.dart
+- test/pub_serve:
+    $include: test/**_test.dart
+- dart_to_js_script_rewriter
+
+# Uncomment the following in sdk 1.24+ to make pub serve
+# use dartdevc (webdev.dartlang.org/tools/dartdevc).
+web:
+  compiler:
+    debug: dartdevc

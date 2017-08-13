@@ -1,0 +1,7 @@
+{
+  "name": "tekartik_nwbuild",
+  "dependencies": {
+    "optimist": "latest",
+    "nw-builder": "latest"
+  }
+}

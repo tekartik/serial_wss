@@ -1,0 +1,82 @@
+@import 'constant';
+
+.app-form-vertical-spacer {
+  width: 100%;
+  height: 16px;
+}
+
+.app-dialog-button-secondary {
+  color: black;
+}
+
+material-dialog h3 {
+  color: black;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.app-grey-button, .app-green-button, .app-red-button {
+  background-color: $app-color-grey;
+  width: $app-grey-button-size;
+  border-radius: 50%;
+  height: $app-grey-button-size;
+}
+
+.app-green-button {
+  color: $app-color-lime;
+}
+
+.app-red-button {
+  color: $app-color-red;
+}
+
+material-fab.app-material-grey-button, .app-material-grey-button {
+  background-color: $app-color-grey;
+}
+
+.app-green-button .material-icons, .app-red-button .material-icons, .app-grey-button .material-icons {
+  font-size: 64px;
+}
+
+.app-error {
+  color: $app-color-red;
+}
+
+.app-border-color-orange {
+  border-color: $app-color-orange
+}
+
+.app-text-purple {
+  color: $app-color-purple;
+}
+
+.app-text-purple-medium {
+  color: $app-color-purple-medium;
+}
+
+
+.app-text-lime {
+  color: $app-color-lime;
+}
+
+.app-text-orange {
+  color: $app-color-orange;
+}
+
+.app-text-red {
+  color: $app-color-red;
+}
+
+.app-text-dark {
+  color: $app-purple-dark;
+}
+
+.app-text-centered {
+  text-align: center;
+}
+
+.app-display-none {
+  display: none;
+}

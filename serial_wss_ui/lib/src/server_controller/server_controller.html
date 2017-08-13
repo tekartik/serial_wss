@@ -1,0 +1,29 @@
+<app-page class="layout vertical">
+
+    <div header>
+        <h2>Serial Wss</h2>
+    </div>
+    <div content>
+        <div class="container">
+
+            <div class="app-page">
+                <div>
+                    <material-input #port label="Enter WebSocket server port"
+                                    autoFocus floatingLabel style="width:80%"
+                                    [(ngModel)]="newPort"
+                                    (keyup.enter)="setPort()">
+                    </material-input>
+                </div>
+                <div>
+
+                    <material-button raised #start (click)="onStart()">Start</material-button>
+                    <material-button #stop (click)="onStop()">Stop</material-button>
+                </div>
+                <div class="app-version">version {{version}}</div>
+                <pre #output>{{outputMessage}}</pre>
+            </div>
+
+        </div>
+    </div>
+</app-page>
+
