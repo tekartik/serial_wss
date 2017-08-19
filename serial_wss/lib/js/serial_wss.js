@@ -9,8 +9,9 @@ const statusPending = "pending";
 const statusClosed = "closed";
 
 const errorCodeFailed = 1;
+const errorCodeBusy = 2;
 
-const version = '0.4.0';
+const version = '0.5.0';
 
 let _extra_debug = true;
 
@@ -131,15 +132,24 @@ class Notification extends Message {
     }
 }
 
+class ConnectionDetail {
+    /// @param {SerialWebSocket} sws
+    constructor(sws, connectionId, path) {
+        this.sws = sws;
+        this.connectionId = connectionId;
+        this.path = path;
+    }
+}
 class SerialWebSocket {
     /// @param {WebSocket} ws
-    /// @param {int} wss connection id
+    /// @param {int} wss connection id (not serial)
     constructor(ws, id) {
         this.ws = ws;
         this.id = id;
         this.status = statusPending;
         this.initReceived = false;
         this.connectionIds = [];
+        this.connectionPaths = [];
 
         // Set when receiving
         this.receiving = false;
@@ -238,14 +248,28 @@ class SerialWebSocket {
         let path = request.params['path'];
         let connectionOptions = request.params['options'];
 
+        // Are we already opened?
+        if (SerialWebSocketServer._connectionPathMap[path] !== undefined) {
+            console.log("busy");
+            let response = new ErrorResponse(request.id, new ErrorObject(errorCodeBusy, "busy path '" + path + "'"));
+            await this._sendMessage(response);
+            return;
+        }
+
+        // Mark pending connection
+        SerialWebSocketServer._connectionPathMap[path] = false;
+
         let connectionInfo = await Serial.connect(path, connectionOptions);
         let result;
 
         // this happens for a failed connection
         if (connectionInfo === undefined) {
+            SerialWebSocketServer._connectionPathMap[path] = undefined;
             let response = new ErrorResponse(request.id, new ErrorObject(errorCodeFailed, "fail to open '" + path + "'"));
             await this._sendMessage(response);
         } else {
+            SerialWebSocketServer._connectionPathMap[path] = true;
+
             console.log(JSON.stringify(connectionInfo));
             // {"bitrate":9600,"bufferSize":4096,"connectionId":1,
             // ctsFlowControl":false,"dataBits":"eight","name":"","parityBit":"no",
@@ -268,7 +292,8 @@ class SerialWebSocket {
             let connectionId = connectionInfo['connectionId'];
 
             // Add to global map and current connection list
-            SerialWebSocketServer._connectionIdMap[connectionId] = this;
+            let connectionDetail = new ConnectionDetail(this, connectionId, path);
+            SerialWebSocketServer._connectionIdMap[connectionId] = connectionDetail;
             this.connectionIds.push(connectionId);
             console.log("onConnect wss " + this.id + " connections " + JSON.stringify(this.connectionIds));
 
@@ -334,6 +359,11 @@ class SerialWebSocket {
         var index = this.connectionIds.indexOf(connectionId);
         if (index > -1) {
             this.connectionIds.splice(index, 1);
+        }
+        let connectionDetail = SerialWebSocketServer._connectionIdMap[connectionId];
+        if (connectionDetail) {
+            // remove busy flag
+            SerialWebSocketServer._connectionPathMap[connectionDetail.path] = undefined;
         }
         SerialWebSocketServer._connectionIdMap[connectionId] = undefined;
         return result;
@@ -448,9 +478,9 @@ class SerialWebSocketServer {
                 //console.log("serial receive " + info)
                 let connectionId = info["connectionId"];
                 let data = info['data'];
-                let connection = SerialWebSocketServer._connectionIdMap[connectionId];
-                if (connection) {
-                    connection.onReceive(connectionId, data);
+                let connectionDetail = SerialWebSocketServer._connectionIdMap[connectionId];
+                if (connectionDetail) {
+                    connectionDetail.sws.onReceive(connectionId, data);
                 }
             });
             SerialWebSocketServer._serialInited = true;
@@ -541,8 +571,10 @@ class SerialWebSocketServer {
 
 }
 
-// Map to id to connection
+// Map to id to connection detail
 SerialWebSocketServer._connectionIdMap = {};
+// Map path to connection (value not relevant) for busy
+SerialWebSocketServer._connectionPathMap = {};
 SerialWebSocketServer._serialInited = false;
 SerialWebSocketServer.version = version;
 
