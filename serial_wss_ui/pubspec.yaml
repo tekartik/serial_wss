@@ -15,6 +15,7 @@ dependencies:
     path: ../serial_wss
   tekartik_serial_wss_client:
     git: git://github.com/tekartik/serial_wss_client.dart
+    version: '>=0.3.0'
   tekartik_angular2_utils:
     git: git://github.com/tekartik/angular2_utils.dart
   tekartik_material_asset:
