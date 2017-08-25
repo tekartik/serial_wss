@@ -2,6 +2,8 @@ var SerialWebSocketServer = require("../lib/js/serial_wss.js");
 
 global._tekartik_serial_wss = undefined;
 
+//SerialWebSocketServer.debug = true;
+
 function _addOutput(msg) {
     let output = document.getElementById("output");
     output.textContent = msg + "\n" + output.textContent

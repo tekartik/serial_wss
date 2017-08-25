@@ -19,6 +19,10 @@ See LICENSE.
     # quick test
     grind nw_run
     
+
+    # if already build
+    nw_run_built
+    
     # official build
     grind build nw_build
 

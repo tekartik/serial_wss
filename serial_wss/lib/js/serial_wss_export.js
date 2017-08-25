@@ -5,6 +5,7 @@ exports.dumpDevices = async function() {
 }
 
 exports.version = SerialWebSocketServer.version;
+exports.debug = SerialWebSocketServer.debug;
 
 exports.initServer = function(port) {
     /*

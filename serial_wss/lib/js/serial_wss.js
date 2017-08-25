@@ -140,6 +140,7 @@ class ConnectionDetail {
         this.path = path;
     }
 }
+
 class SerialWebSocket {
     /// @param {WebSocket} ws
     /// @param {int} wss connection id (not serial)
@@ -150,10 +151,10 @@ class SerialWebSocket {
         this.initReceived = false;
         this.connectionIds = [];
         this.connectionPaths = [];
+        this.connectionReceiveBuffers = {};
 
         // Set when receiving
         this.receiving = false;
-        this.receiveBuffer = undefined;
 
         ws.on('message', (message) => this._onMessage(message));
         ws.on('close', () => {
@@ -176,6 +177,7 @@ class SerialWebSocket {
     }
 
     async _sendRevcData(connectionId, data) {
+        // Queue if needed
         //console.log("sending: " + connectionId + " " + utils.buf2hex(data));
         var info = new Notification("recv", {
             'connectionId': connectionId,
@@ -186,26 +188,46 @@ class SerialWebSocket {
     }
 
     async onReceive(connectionId, data) {
-        if (this.receiveBuffer !== undefined) {
-            this.receiveBuffer = utils.bufferCat(this.receiveBuffer, data);
+        let receiveBuffer = this.connectionReceiveBuffers[connectionId];
+        if (SerialWebSocketServer.debug) {
+            console.log("buffering [" + connectionId + "]: " + utils.buf2hex(data) + " ");
+        }
+        if (receiveBuffer !== undefined) {
+
+            this.connectionReceiveBuffers[connectionId] = utils.bufferCat(receiveBuffer, data);
         } else {
-            this.receiveBuffer = utils.bufferClone(data);
+            this.connectionReceiveBuffers[connectionId] = utils.bufferClone(data);
         }
         // notify client
         if (!this.receiving) {
-        //    console.log("concat: " + utils.buf2hex(data));
-        //} else {
-        //    console.log("sending: " + utils.buf2hex(data));
+            //    console.log("concat: " + utils.buf2hex(data));
+            //} else {
             this.receiving = true;
-            while (this.receiveBuffer !== undefined) {
+            while (true) {
+                let keys = Object.keys(this.connectionReceiveBuffers);
+                if (keys.length === 0) {
+                    break;
+                }
+                let connectionId = parseInt(Object.keys(this.connectionReceiveBuffers)[0]);
+                //if (SerialWebSocketServer.debug) {
+                //    console.log("connectionId: " + connectionId);
+                //}
+
+                let receiveBuffer = this.connectionReceiveBuffers[connectionId];
                 // Send current buffer and clear it
-                var recvData = utils.bufferClone(this.receiveBuffer);
-                this.receiveBuffer = undefined;
+                var recvData = utils.bufferClone(receiveBuffer);
+                if (SerialWebSocketServer.debug) {
+                    console.log("sending [" + connectionId + "]: " + utils.buf2hex(recvData));
+                }
+                delete this.connectionReceiveBuffers[connectionId];
                 try {
                     await this._sendRevcData(connectionId, recvData);
-                } catch (e) {}
+                } catch (e) {
+                }
             }
+
             this.receiving = false;
+
 
         }
     }
@@ -577,6 +599,7 @@ SerialWebSocketServer._connectionIdMap = {};
 SerialWebSocketServer._connectionPathMap = {};
 SerialWebSocketServer._serialInited = false;
 SerialWebSocketServer.version = version;
+SerialWebSocketServer.debug = false;
 
 module.exports = SerialWebSocketServer;
 
