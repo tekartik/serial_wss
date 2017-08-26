@@ -329,13 +329,10 @@ class SerialWebSocket {
         let data = request.params['data'];
 
 
+        /*
         console.log(JSON.stringify(data));
         console.log(data);
         console.log(typeof(data));
-        /*
-        if (typeof(data) == "string") {
-
-        }
         */
         var buffer;
         if (typeof(data) === "string") {
@@ -346,7 +343,7 @@ class SerialWebSocket {
         let sendInfo = await Serial.send(connectionId, buffer);
 
         //console.log(sendInfo);
-        console.log(JSON.stringify(sendInfo));
+        //console.log(JSON.stringify(sendInfo));
         // "{"bytesSent":0,"error":"pending"}",
         var result = {"bytesSent": sendInfo["bytesSent"], "error": "pending"};
         let response = new Response(request.id, result);
