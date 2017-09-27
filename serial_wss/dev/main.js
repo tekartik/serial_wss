@@ -21,6 +21,7 @@ async function tekartik_serial_start(port) {
     _addOutput("starting on " + port)
     let _wss;
     try {
+        SerialWebSocketServer.debug = true;
         _wss  = new SerialWebSocketServer(port);
         console.log("waiting for ready");
         await _wss.ready;

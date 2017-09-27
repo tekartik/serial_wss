@@ -29,9 +29,18 @@ class Serial {
                     if (_debug) {
                         console.log("connect: " + JSON.stringify(connectionInfo));
                     }
+                    if (chrome.runtime.lastError) {
+                        reject(chrome.runtime.lastError);
+                        return;
+                    }
+
                     resolve(connectionInfo);
                 });
             } catch (e) {
+                console.log("connect error: " + e);
+                if (chrome.runtime.lastError) {
+                    console.log(chrome.runtime.lastError.message);
+                }
                 reject(e);
             }
         });
@@ -48,6 +57,41 @@ class Serial {
                 console.log("recv conn:" + data['connectionId']);
                 console.log("receive:" + Serial.buf2hex(data['data']));
                 //console.log("receive:" + data.constructor.name + JSON.stringify(data));
+            }
+            cb(data);
+        });
+    }
+
+    static onReceiveError(cb) {
+        /*
+             An error code indicating what went wrong.
+            disconnected
+            The connection was disconnected.
+            timeout
+            No data has been received for receiveTimeout milliseconds.
+            device_lost
+            The device was most likely disconnected from the host.
+            break
+            The device detected a break condition.
+            frame_error
+            The device detected a framing error.
+            overrun
+            A character-buffer overrun has occurred. The next character is lost.
+            buffer_overflow
+            An input buffer overflow has occurred. There is either no room in the input buffer, or a character was received after the end-of-file (EOF) character.
+            parity_error
+            The device detected a parity error.
+            system_error
+            A system error occurred and the connection may be unrecoverable.
+         */
+        chrome.serial.onReceiveError.addListener(function (data) {
+            if (_data_debug) {
+                console.log("onReceiveError:" + data.constructor.name + JSON.stringify(data));
+                // t{"connectionId":1,"data":{}}"
+                //console.log("data:" + data);
+                //console.log("recv conn:" + data['connectionId']);
+                //console.log("receive:" + Serial.buf2hex(data['data']));
+
             }
             cb(data);
         });
@@ -77,11 +121,29 @@ class Serial {
     /// @param {int} connectionId
     static disconnect(connectionId) {
         return new Promise((resolve, reject) => {
-            chrome.serial.disconnect(connectionId, function (success) {
-                console.log("disconnect.done");
-                console.log(success);
-                resolve(success);
-            });
+            if (_debug) {
+                console.log("disconnecting: " + connectionId);
+            }
+            try {
+                chrome.serial.disconnect(connectionId, function (success) {
+                    if (_debug) {
+                        console.log("disconnect " + connectionId + ": " + success);
+                    }
+                    if (chrome.runtime.lastError) {
+                        reject(chrome.runtime.lastError);
+                        return;
+                    }
+                    console.log("disconnect.done");
+                    console.log(success);
+                    resolve(success);
+                });
+            } catch (e) {
+                console.log("disconnect error " + connectionId + ": " + e);
+                if (chrome.runtime.lastError) {
+                    console.log(chrome.runtime.lastError.message);
+                }
+                reject(e);
+            }
         });
     }
 

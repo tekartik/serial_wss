@@ -176,12 +176,23 @@ class SerialWebSocket {
         //console.log('done sending');
     }
 
-    async _sendRevcData(connectionId, data) {
+    async _sendRecvData(connectionId, data) {
         // Queue if needed
         //console.log("sending: " + connectionId + " " + utils.buf2hex(data));
         var info = new Notification("recv", {
             'connectionId': connectionId,
             'data': utils.buf2hex(data)
+        });
+        await this._sendMessage(info);
+
+    }
+
+    async _sendError(connectionId, error) {
+        // Queue if needed
+        //console.log("sending: " + connectionId + " " + utils.buf2hex(data));
+        var info = new Notification("error", {
+            'connectionId': connectionId,
+            'error': error
         });
         await this._sendMessage(info);
 
@@ -221,7 +232,7 @@ class SerialWebSocket {
                 }
                 delete this.connectionReceiveBuffers[connectionId];
                 try {
-                    await this._sendRevcData(connectionId, recvData);
+                    await this._sendRecvData(connectionId, recvData);
                 } catch (e) {
                 }
             }
@@ -229,6 +240,24 @@ class SerialWebSocket {
             this.receiving = false;
 
 
+        }
+    }
+
+    async onError(connectionId, error) {
+        try {
+            switch (error) {
+                case "disconnected":
+                case "device_lost":
+                case "system_error":
+                    await this._disconnect(connectionId);
+                    if (chrome.runtime.lastError) {
+                        console.log(chrome.runtime.lastError.message);
+                    }
+                    break;
+            }
+
+            await this._sendError(connectionId, error);
+        } catch (e) {
         }
     }
 
@@ -281,13 +310,19 @@ class SerialWebSocket {
         // Mark pending connection
         SerialWebSocketServer._connectionPathMap[path] = false;
 
-        let connectionInfo = await Serial.connect(path, connectionOptions);
+        let connectionInfo;
+        let error;
+        try {
+            connectionInfo = await Serial.connect(path, connectionOptions);
+        } catch (e) {
+            error = e;
+        }
         let result;
 
         // this happens for a failed connection
         if (connectionInfo === undefined) {
             SerialWebSocketServer._connectionPathMap[path] = undefined;
-            let response = new ErrorResponse(request.id, new ErrorObject(errorCodeFailed, "fail to open '" + path + "'"));
+            let response = new ErrorResponse(request.id, new ErrorObject(errorCodeFailed, "fail to open '" + path + "' " + JSON.stringify(error)));
             await this._sendMessage(response);
         } else {
             SerialWebSocketServer._connectionPathMap[path] = true;
@@ -373,8 +408,11 @@ class SerialWebSocket {
     }
 
     async _disconnect(connectionId) {
-        let result = await Serial.disconnect(connectionId);
-        console.log("Serial.disconnect: " + JSON.stringify(result));
+        let result;
+        try {
+            result = await Serial.disconnect(connectionId);
+        } catch (e) {}
+        console.log("Serial.disconnect: " + connectionId + " " + JSON.stringify(result));
         var index = this.connectionIds.indexOf(connectionId);
         if (index > -1) {
             this.connectionIds.splice(index, 1);
@@ -501,6 +539,30 @@ class SerialWebSocketServer {
                 if (connectionDetail) {
                     connectionDetail.sws.onReceive(connectionId, data);
                 }
+            });
+            Serial.onReceiveError(function (info) {
+                // "{"connectionId":1,"error":"device_lost"}",
+                if (SerialWebSocketServer.debug) {
+                    console.log(JSON.stringify(info));
+                }
+
+                let connectionId = info["connectionId"];
+                let error = info['error'];
+                let connectionDetail = SerialWebSocketServer._connectionIdMap[connectionId];
+                if (connectionDetail) {
+                    connectionDetail.sws.onError(connectionId, error);
+                }
+                /*
+                // integer	connectionId        The connection identifier.
+                // ArrayBuffer	data            The data received.
+                //console.log("serial receive " + info)
+                let connectionId = info["connectionId"];
+                let data = info['data'];
+                let connectionDetail = SerialWebSocketServer._connectionIdMap[connectionId];
+                if (connectionDetail) {
+                    connectionDetail.sws.onReceive(connectionId, data);
+                }
+                */
             });
             SerialWebSocketServer._serialInited = true;
         }
