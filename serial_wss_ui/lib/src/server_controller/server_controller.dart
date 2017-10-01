@@ -1,5 +1,5 @@
-import 'package:angular2/angular2.dart';
-import 'package:angular2/core.dart';
+import 'package:angular/angular.dart';
+import 'package:angular/core.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:tekartik_browser_utils/browser_utils_import.dart';
 import 'package:tekartik_common_utils/int_utils.dart';

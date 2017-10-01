@@ -8,7 +8,7 @@ import 'package:tekartik_io_utils/io_utils_import.dart';
 import 'package:tekartik_serial_wss_ui/app_constant.dart';
 import 'package:tekartik_serial_wss_ui/splash/splash.dart';
 import 'package:tekartik_serial_wss/serial_wss.dart';
-import 'package:angular2/angular2.dart';
+import 'package:angular/angular.dart';
 import 'package:tekartik_app_utils/app_host_target.dart';
 import 'package:tekartik_app_utils/app_host_target_browser.dart';
 import 'package:event_bus/event_bus.dart';

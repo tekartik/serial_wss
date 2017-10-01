@@ -1,5 +1,5 @@
-import 'package:angular2/core.dart';
-import 'package:tekartik_angular2_utils/layout/page_layout/page_layout.dart';
+import 'package:angular/core.dart';
+import 'package:tekartik_angular_utils/layout/page_layout/page_layout.dart';
 
 @Component(
     selector: 'app-page',

@@ -1,7 +1,7 @@
 // Copyright (c) 2017, alex. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-import 'package:angular2/platform/browser.dart';
+import 'package:angular/angular.dart';
 
 import 'package:tekartik_serial_wss_ui/app_component.dart';
 import 'package:tekartik_serial_wss_ui/app_provider.dart';

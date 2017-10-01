@@ -1,7 +1,5 @@
-import 'package:angular2/core.dart';
-import 'package:angular2/platform/common.dart';
-import 'package:angular2/router.dart';
-
+import 'package:angular/core.dart';
+import 'package:angular_router/angular_router.dart';
 import 'package:tekartik_app_utils/iron_flex_layout/loader.dart';
 import 'package:tekartik_app_utils/material_asset/loader.dart';
 import 'package:tekartik_app_utils/flexboxgrid/loader.dart';
