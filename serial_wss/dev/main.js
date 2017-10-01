@@ -1,4 +1,5 @@
 var SerialWebSocketServer = require("../lib/js/serial_wss.js");
+var Serial = require("../lib/js/serial.js");
 
 global._tekartik_serial_wss = undefined;
 
@@ -22,6 +23,8 @@ async function tekartik_serial_start(port) {
     let _wss;
     try {
         SerialWebSocketServer.debug = true;
+        Serial.debug = true;
+
         _wss  = new SerialWebSocketServer(port);
         console.log("waiting for ready");
         await _wss.ready;

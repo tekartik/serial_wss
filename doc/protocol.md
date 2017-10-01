@@ -147,6 +147,35 @@ Response:
 }
 ````
 
+### disconnect
+
+To disconnect from serial port, send the following request
+
+Query:
+
+````
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "disconnect",
+  "params": {
+    "connectionId": 5
+  }
+}
+````
+
+Response:
+
+````
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "result": true
+}
+````
+
+## Server notifications
+
 ### Receiving data
 
 The server will send the following notification:
@@ -162,3 +191,46 @@ The server will send the following notification:
 }
 ````
 
+### Error
+
+On error, the server will send the following notification
+
+````
+{
+  "jsonrpc": "2.0",
+  "method": "error",
+  "params": {
+    "connectionId": 5,
+    "error": <error>
+  }
+}
+````
+
+Possible `<error>` listed [here](https://developer.chrome.com/apps/serial#event-onReceiveError) are 
+- "disconnected"
+- "timeout"
+- "device_lost"
+- "break"
+- "frame_error"
+- "overrun"
+- "buffer_overflow"
+- "parity_error"
+- "system_error"
+
+"disconnected", "device_lost", "system_error" will also automatically trigger a disconnection notification
+
+
+### Disconneced notification
+
+When the device is disconnected (other than the client such as when a USB device is removed), the server
+will send the following `disconnected` notification
+
+````
+{
+  "jsonrpc": "2.0",
+  "method": "disconnected",
+  "params": {
+    "connectionId": 5,
+  }
+}
+````

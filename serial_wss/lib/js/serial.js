@@ -1,7 +1,9 @@
 // quick debugging of data
 var _debug = false;
 var _data_debug = _debug && true;
+
 class Serial {
+
 
     // function
     static getDevices() {
@@ -22,11 +24,11 @@ class Serial {
     static connect(path, options) {
         return new Promise((resolve, reject) => {
             try {
-                if (_debug) {
+                if (_debug || Serial.debug) {
                     console.log("connecting: " + path + (options !== undefined ? ' (' + JSON.stringify(options) + ')' : ''));
                 }
                 chrome.serial.connect(path, options, function (connectionInfo) {
-                    if (_debug) {
+                    if (_debug || Serial.debug) {
                         console.log("connect: " + JSON.stringify(connectionInfo));
                     }
                     if (chrome.runtime.lastError) {
@@ -121,12 +123,12 @@ class Serial {
     /// @param {int} connectionId
     static disconnect(connectionId) {
         return new Promise((resolve, reject) => {
-            if (_debug) {
+            if (_debug || Serial.debug) {
                 console.log("disconnecting: " + connectionId);
             }
             try {
                 chrome.serial.disconnect(connectionId, function (success) {
-                    if (_debug) {
+                    if (_debug || Serial.debug) {
                         console.log("disconnect " + connectionId + ": " + success);
                     }
                     if (chrome.runtime.lastError) {
@@ -148,5 +150,7 @@ class Serial {
     }
 
 }
+
+Serial.debug = false;
 
 module.exports = Serial;

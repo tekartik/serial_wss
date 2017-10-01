@@ -11,7 +11,7 @@ const statusClosed = "closed";
 const errorCodeFailed = 1;
 const errorCodeBusy = 2;
 
-const version = '0.5.2';
+const version = '0.6.0';
 
 let _extra_debug = true;
 
@@ -195,7 +195,15 @@ class SerialWebSocket {
             'error': error
         });
         await this._sendMessage(info);
+    }
 
+    async _sendDisconnected(connectionId) {
+        // Queue if needed
+        //console.log("sending: " + connectionId + " " + utils.buf2hex(data));
+        var info = new Notification("disconnected", {
+            'connectionId': connectionId
+        });
+        await this._sendMessage(info);
     }
 
     async onReceive(connectionId, data) {
@@ -245,18 +253,25 @@ class SerialWebSocket {
 
     async onError(connectionId, error) {
         try {
+
+            let shouldDisonnect = false;
             switch (error) {
                 case "disconnected":
                 case "device_lost":
                 case "system_error":
-                    await this._disconnect(connectionId);
-                    if (chrome.runtime.lastError) {
-                        console.log(chrome.runtime.lastError.message);
-                    }
+                    shouldDisonnect = true;
                     break;
             }
 
             await this._sendError(connectionId, error);
+
+            if (shouldDisonnect) {
+                await this._disconnect(connectionId);
+                if (chrome.runtime.lastError) {
+                    console.log(chrome.runtime.lastError.message);
+                }
+                await this._sendDisconnected(connectionId);
+            }
         } catch (e) {
         }
     }
@@ -411,7 +426,8 @@ class SerialWebSocket {
         let result;
         try {
             result = await Serial.disconnect(connectionId);
-        } catch (e) {}
+        } catch (e) {
+        }
         console.log("Serial.disconnect: " + connectionId + " " + JSON.stringify(result));
         var index = this.connectionIds.indexOf(connectionId);
         if (index > -1) {
