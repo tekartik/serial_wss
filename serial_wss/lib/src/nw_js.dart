@@ -41,6 +41,7 @@ Future jsPromiseToFuture(JsPromise promise) {
 /// - [jsPromiseToFuture]
 dynamic futureToJsPromise(Future future) {
   return new JsPromise(allowInterop((Function resolve, Function reject) {
+    // ignore: argument_type_not_assignable
     future.then(resolve, onError: reject);
   }));
 }

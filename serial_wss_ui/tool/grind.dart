@@ -91,7 +91,8 @@ build() async {
 
   // Run all tests
   ProcessResult result = await runCmd(
-      pkg.pubCmd(pubBuildArgs(mode: "release", directories: [nw_dart])),
+      pkg.pubCmd(
+          pubBuildArgs(mode: "release", directories: [nw_dart]).toList()),
       verbose: true);
   print('exitCode: ${result.exitCode}');
 }

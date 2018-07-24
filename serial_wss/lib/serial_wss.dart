@@ -41,8 +41,6 @@ Version get version {
   return parseVersion(serialWssExport.version);
 }
 
-
-
 class SerialWebSockerServer {
   SerialWebSockerServerImpl impl;
   SerialWebSockerServer._(this.impl, this.port);
@@ -60,6 +58,6 @@ _init() {
         join(".", "packages", "tekartik_serial_wss", "js",
             "serial_wss_export.js")
         //join("..", "..", "..", "lib", "js", "serial_wss.js")
-        );
+        ) as SerialWssExport;
   }
 }

@@ -6,7 +6,7 @@ import 'package:tekartik_build_utils/cmd_run.dart';
 
 //import 'package:process_run/cmd_run.dart';
 
-main(args) => grind(args);
+main(List<String> args) => grind(args);
 
 @Task()
 test() => new TestRunner().testAsync();
@@ -52,7 +52,7 @@ nw_run_dart() async {
 
   // Run all tests
   ProcessResult result = await runCmd(
-      pkg.pubCmd(pubBuildArgs(mode: "debug", directories: [nw_dart])),
+      pkg.pubCmd(pubBuildArgs(mode: "debug", directories: [nw_dart]).toList()),
       verbose: true);
   print('exitCode: ${result.exitCode}');
   await nw_test_dart();
@@ -90,7 +90,7 @@ test_es6() async {
 
   // Run all tests
   ProcessResult result = await runCmd(
-      pkg.pubCmd(pubBuildArgs(mode: "debug", directories: [nw_es6])),
+      pkg.pubCmd(pubBuildArgs(mode: "debug", directories: [nw_es6]).toList()),
       verbose: true);
   print('exitCode: ${result.exitCode}');
   await nw_test_es6();

@@ -37,7 +37,7 @@ class ServerControllerComponent implements OnInit {
   @ViewChild("port")
   MaterialInputComponent portInput;
 
-  PreElement get outputElement => (preOutputRef.nativeElement);
+  PreElement get outputElement => (preOutputRef.nativeElement) as PreElement;
 
   @ViewChild("start")
   MaterialButtonComponent startButton;

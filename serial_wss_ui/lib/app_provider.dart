@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:tekartik_browser_utils/css_utils.dart';
 import 'package:tekartik_serial_wss_ui/app_service.dart';
 
-get appProvider async {
+Future<List> get appProvider async {
   //initApis();
   /*
   StringBuffer sb = new StringBuffer();
@@ -49,7 +49,7 @@ get appProvider async {
   return _getProvider();
 }
 
-_getProvider() {
+List _getProvider() {
   String baseHref = '/';
   return [
     //FirebaseService,
