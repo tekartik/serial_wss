@@ -17,14 +17,22 @@ dev_dependencies:
   event_bus: any
   web_socket_channel: any
   tekartik_serial_wss_client:
-    git: git://github.com/tekartik/serial_wss_client.dart
+    git:
+      url: git://github.com/tekartik/serial_wss_client.dart
+      ref: dart1
   dev_test: any
   tekartik_test_menu:
-    git: git://github.com/tekartik/test_menu.dart
+    git:
+      url: git://github.com/tekartik/test_menu.dart
+      ref: dart1
   tekartik_build_utils:
-    git: git://github.com/tekartik/build_utils.dart
+    git:
+      url: git://github.com/tekartik/build_utils.dart
+      ref: dart1
   tekartik_browser_utils:
-    git: git://github.com/tekartik/browser_utils.dart
+    git:
+      url: git://github.com/tekartik/browser_utils.dart
+      ref: dart1
 
 dependency_overrides:
 #  tekartik_pub:
